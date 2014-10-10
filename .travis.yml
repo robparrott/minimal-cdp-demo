@@ -8,3 +8,13 @@ deploy:
   app: cryptic-depths-9874
   on:
     repo: robparrott/web-hello-world
+
+before_install:
+- openssl aes-256-cbc -K $encrypted_6b883e898529_key -iv $encrypted_6b883e898529_iv
+  -in web-helloworld-production-deploy.enc -out web-helloworld-production-deploy -d
+
+after_success:
+  - chmod 600 .travis/web-helloworld-production-deploy # this key should have push access
+  - ssh-add .travis/web-helloworld-production-deploy
+  - git remote add deploy git@github.com:robparrott/web-hello-world-deploy.git
+  - git push deploy
