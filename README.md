@@ -28,8 +28,8 @@ Once setup, on GitHub browse to the settings of the repository you want do CI wi
 To use Heroku, signup and create a new Java App by following the directions under this link: [Java App](https://devcenter.heroku.com/articles/getting-started-with-java).  Make sure you create a new ssh key, and name it after this particular app. This will be a "service" key, just used for deploying this app:
 
 ```
-$ cd ~/.ssh/
-$ ssh-keygen -f web-hello-world-heroku
+cd ~/.ssh/
+ssh-keygen -f web-hello-world-heroku
 ```
 
 and don't use a passphrase on it.
@@ -44,8 +44,20 @@ and confirm the URL
 heroku open
 ```
 
+Once you have an app in heroku ready to deploy to, we'll need to setup Travis CI to deploy as per the docs [here](http://docs.travis-ci.com/user/deployment/heroku/). You'll need to capture the API key for heroku by executing
 
+```
+heroku auth:token
+```
 
+and copying that value. Treat in securely, since it represents a token credential. Next, cd to the root of the repo we want to automate, and encrypt that token for Travis CI:
+
+```
+cd web-hello-world
+travis encrypt $(heroku auth:token) --add deploy.api_key   
+```
+
+This edits your `.travis.yaml` and inserts an encrypted version of this token. You can then commit this edited file into a public repo with minimal risk of exposure.
 
 
 ### Setup a "Golden Master" repo
