@@ -3,7 +3,7 @@
 
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>net.chrissearle.web</groupId>
+    <groupId>net.robparrott.web</groupId>
     <artifactId>hello-world</artifactId>
     <packaging>war</packaging>
 
