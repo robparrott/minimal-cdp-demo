@@ -16,7 +16,12 @@ See
 
 - http://docs.travis-ci.com/user/getting-started/
 
-Create a Travis CI account based on your GitHub account, 
+Create a Travis CI account based on your GitHub account, and note the token.
+
+Once setup, on GitHub browse to the settings of the repository you want do CI with (i.e. this one?) and add a new Travis CI service. Provide the Travis CI username and token; use the "profile" tab on Travis CI to find these values. Once added, save and then make a trivial change to the repo and commit it. You should see the build happen automatically under Travis CI, and a status under this README.
+
+
+## 3 
 
 
 
