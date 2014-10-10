@@ -5,6 +5,6 @@ deploy:
   provider: heroku
   api_key:
     secure: Nm/evyX4yvjP44THa5whXhcId061oCExrQF/TTRyXWv6ArwjRjEK2vbH+RhhjRzKEfB30alna1dwI1Md1hLP9xMCUrcR7Yg336B2guKxVh6zNv9noNTuVmaABuZBOidor7YSYBWNcrkioV5PHTLwoP31HNIChQNIzd2YkUOJ6A0=
-  app: web-hello-world
+  app: cryptic-depths-9874
   on:
     repo: robparrott/web-hello-world
