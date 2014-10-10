@@ -1,4 +1,4 @@
-package net.chrissearle.web.helloworld;
+package net.robparrott.web.helloworld;
 
 import org.eclipse.jetty.server.Server;
 import org.eclipse.jetty.servlet.ServletContextHandler;
@@ -14,7 +14,7 @@ public class HelloWorld extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp)
             throws ServletException, IOException {
-        resp.getWriter().print("Hello from Java!\nAutodeployed!\n");
+        resp.getWriter().print("Hello from an Java HttpServlet!\nAutodeployed!\n");
     }
 
     public static void main(String[] args) throws Exception {
