@@ -25,7 +25,23 @@ Once setup, on GitHub browse to the settings of the repository you want do CI wi
 
 ## 3 Setup Deployment
 
-To use Heroku, signup and create a new Java App by following the directions under this link: [Java App](https://devcenter.heroku.com/articles/getting-started-with-java).  Make sure you create a new ssh key, and don't use a passphrase on it.
+To use Heroku, signup and create a new Java App by following the directions under this link: [Java App](https://devcenter.heroku.com/articles/getting-started-with-java).  Make sure you create a new ssh key, and name it after this particular app. This will be a "service" key, just used for deploying this app:
+
+```
+$ cd ~/.ssh/
+$ ssh-keygen -f web-hello-world-heroku
+```
+
+and don't use a passphrase on it.
+
+The run `heroku login` and register the key.  Next create a Heroku webapp 
+
+```
+heroku create
+```
+
+
+
 
 
 ## Setup a "Golden Master" repo
