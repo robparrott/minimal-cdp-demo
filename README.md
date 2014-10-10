@@ -3,7 +3,7 @@
 
 # Continuous Deployment Example 
 
-This repository, based on (https://github.com/chrissearle/web-hello-world)[https://github.com/chrissearle/web-hello-world] demonstrates using common CI and CD services to build a continuous deployment pipeline.
+This repository, based on [https://github.com/chrissearle/web-hello-world](https://github.com/chrissearle/web-hello-world) demonstrates using common CI and CD services to build a continuous deployment pipeline.
 
 # Steps
 
