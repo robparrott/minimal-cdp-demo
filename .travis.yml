@@ -1,14 +1,16 @@
+
+
 language: java
 jdk:
 - oraclejdk7
 
-deploy:
-  provider: heroku
-  api_key:
-    secure: Nm/evyX4yvjP44THa5whXhcId061oCExrQF/TTRyXWv6ArwjRjEK2vbH+RhhjRzKEfB30alna1dwI1Md1hLP9xMCUrcR7Yg336B2guKxVh6zNv9noNTuVmaABuZBOidor7YSYBWNcrkioV5PHTLwoP31HNIChQNIzd2YkUOJ6A0=
-  app: cryptic-depths-9874
-  on:
-    repo: robparrott/web-hello-world
+services:
+  - mysql
+  - memcached
+
+before_script:
+  - mysql -u root -p'' < src/sql/database.sql
+  - mysql -u root -p'' -e 'show tables;'
 
 before_install:
 - openssl aes-256-cbc -K $encrypted_6b883e898529_key -iv $encrypted_6b883e898529_iv
@@ -22,3 +24,11 @@ after_success:
   - git branch -av
   - git push deploy master
   - echo "Completed push..."
+
+deploy:
+  provider: heroku
+  api_key:
+    secure: Nm/evyX4yvjP44THa5whXhcId061oCExrQF/TTRyXWv6ArwjRjEK2vbH+RhhjRzKEfB30alna1dwI1Md1hLP9xMCUrcR7Yg336B2guKxVh6zNv9noNTuVmaABuZBOidor7YSYBWNcrkioV5PHTLwoP31HNIChQNIzd2YkUOJ6A0=
+  app: cryptic-depths-9874
+  on:
+    repo: robparrott/web-hello-world
