@@ -17,5 +17,6 @@ before_install:
 after_success:
   - source .travis/ssh-setup.sh
   - git remote add deploy git@github.com:robparrott/web-hello-world-deploy.git
+  - git config --global push.default simple
   - git push deploy
   - echo "Completed push..."
