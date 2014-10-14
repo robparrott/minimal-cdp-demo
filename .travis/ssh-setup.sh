@@ -10,8 +10,8 @@
 eval `ssh-agent`
 
 # Add the key
-chmod 600 .travis/web-helloworld-production-deploy
-ssh-add .travis/web-helloworld-production-deploy
+chmod 600 .travis/web-helloworld-production-deploy.key
+ssh-add .travis/web-helloworld-production-deploy.key
 ssh-add -l 
 
 
