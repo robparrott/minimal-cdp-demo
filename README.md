@@ -1,4 +1,4 @@
-[![Build Status](https://travis-ci.org/robparrott/web-hello-world.png?branch=master)](https://travis-ci.org/robparrott/web-hello-world)
+[![Build Status](https://travis-ci.org/robparrott/minimal-cdp-demo.png?branch=master)](https://travis-ci.org/robparrott/minimal-cdp-demo)
 
 
 # Continuous Deployment Example 
@@ -29,7 +29,7 @@ To use Heroku, signup and create a new Java App by following the directions unde
 
 ```
 cd ~/.ssh/
-ssh-keygen -f web-hello-world-heroku
+ssh-keygen -f minimal-cdp-demo-heroku
 ```
 
 and don't use a passphrase on it.
@@ -61,7 +61,7 @@ heroku auth:token
 and copying that value. Treat in securely, since it represents a token credential. Next, cd to the root of the repo we want to automate, and encrypt that token for Travis CI:
 
 ```
-cd web-hello-world
+cd minimal-cdp-demo
 travis encrypt $(heroku auth:token) --add deploy.api_key   
 ```
 
@@ -79,7 +79,7 @@ Instead of deploying to production straight from Travis CI, we may want to push 
 To start, we'll create a "service account" keypair that is only used for this push from a sucessful travis build to a "production" repository:
 
 ```
-ssh-keygen -f web-helloworld-production-deploy
+ssh-keygen -f minimal-cdp-demo-deploy
 ```
 
 Be sure not to set a passphrase on it.
@@ -89,23 +89,23 @@ Then register that public key with github using the GUI, ideally using a service
 The private key we'll encrypt in Travic CI, and add to the repository. To do this, make a `.travis/` directory in the root of the repository, copy over the key, encrypt it and then remove the encrypted version. This we can safely add to the repository.
 
 ```
-cp ~/.ssh/web-helloworld-service-key ./.travis/
+cp ~/.ssh/minimal-cdp-demo-service-key ./.travis/
 cd .travis/
-travis encrypt-file web-helloworld-service-key --add
+travis encrypt-file minimal-cdp-demo-service-key --add
 ```
 
 This will encrypt a copy of the key, and modify the `/.travis.yml` file to properly decrypt the encrypted file before use.  Once done, commit the `.travis.yml`  and encrypted key to the repo. DO NOT add the unencrypted key, however.
 
-Next create a repository in GitHub to be the "Golden Master" repository (we'll name it `web-hello-world-deploy` in this example). Make sure the service account key has push access to this new repositiory in GitHub.
+Next create a repository in GitHub to be the "Golden Master" repository (we'll name it `minimal-cdp-demo-golden` in this example). Make sure the service account key has push access to this new repositiory in GitHub.
 
 Then add to your `.travis.yml` a stanza that sets up SSH and pushes a successful build to a separate repository.
 
 ```
 after_success:
   - eval `ssh-agent` 
-  - chmod 600 .travis/web-helloworld-production-deploy 
-  - ssh-add .travis/web-helloworld-production-deploy
-  - git remote add deploy git@github.com:robparrott/web-hello-world-deploy.git
+  - chmod 600 .travis/minimal-cdp-demo-production-deploy 
+  - ssh-add .travis/minimal-cdp-demo-production-deploy
+  - git remote add deploy git@github.com:robparrott/minimal-cdp-demo-golden.git
   - git push deploy master
   - echo "Completed push..."
 ```

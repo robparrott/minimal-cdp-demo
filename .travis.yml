@@ -17,7 +17,7 @@ before_install:
 
 after_success:
 - source .travis/ssh-setup.sh
-- git remote add deploy git@github.com:robparrott/web-hello-world-deploy.git
+- git remote add deploy git@github.com:robparrott/minimal-cdp-demo-golden.git
 - git config --global push.default matching
 - git ls-files
 - git branch -av
@@ -35,11 +35,11 @@ deploy:
     skip_cleanup: true
     local-dir: build
     on:
-      repo: robparrott/web-hello-world
+      repo: robparrott/minimal-cdp-demo
 
   - provider: heroku
     api_key:
       secure: Nm/evyX4yvjP44THa5whXhcId061oCExrQF/TTRyXWv6ArwjRjEK2vbH+RhhjRzKEfB30alna1dwI1Md1hLP9xMCUrcR7Yg336B2guKxVh6zNv9noNTuVmaABuZBOidor7YSYBWNcrkioV5PHTLwoP31HNIChQNIzd2YkUOJ6A0=
     app: cryptic-depths-9874
     on:
-      repo: robparrott/web-hello-world
+      repo: robparrott/minimal-cdp-demo
