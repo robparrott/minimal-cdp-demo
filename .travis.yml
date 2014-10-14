@@ -14,10 +14,7 @@ before_install:
   -in .travis/web-helloworld-production-deploy.enc -out .travis/web-helloworld-production-deploy -d
 
 after_success:
-  - chmod 600 .travis/web-helloworld-production-deploy # this key should have push access
-  - ssh-add -l 
-  - cat ~/.ssh/config
-  - ssh-add .travis/web-helloworld-production-deploy
+  - source .travis/ssh-setup.sh
   - git remote add deploy git@github.com:robparrott/web-hello-world-deploy.git
   - git push deploy
   - echo "Completed push..."
