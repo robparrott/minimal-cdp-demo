@@ -30,8 +30,6 @@ deploy:
     secret_access_key:
       secure: KI8Z+GmWc1TxWh+kFty0HRp8vaE72q2tci2e71JL9dxgnBzKvOBLjHpkZvaAvMy/ilQBdnZH+vq9NpejOAFuTCEZ2oBKt1B1AJPiGXKkfQJbrdQl1nr+pv7wYn0Uc0xxqP0ahe+QCvHCW3saXV+gZ3WNjJzcq1ymwQuomnl/7cA=
     bucket: cdp-demo-deploy-harvard-edu
-    acl: !ruby/string:HighLine::String |-
-      cHJpdmF0ZQ==
     on:
       repo: robparrott/web-hello-world
 
