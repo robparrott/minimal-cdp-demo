@@ -9,8 +9,8 @@ services:
   - memcached
 
 before_script:
-  - mysql -u root -p'' < src/sql/database.sql
-  - mysql -u root -p'' -e 'show tables;'
+  - mysql < src/sql/database.sql
+  - mysql -e 'show tables;'
 
 before_install:
 - openssl aes-256-cbc -K $encrypted_6b883e898529_key -iv $encrypted_6b883e898529_iv
