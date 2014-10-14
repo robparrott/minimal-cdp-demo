@@ -1,34 +1,39 @@
-
-
 language: java
 jdk:
 - oraclejdk7
-
 services:
-  - mysql
-  - memcached
-
+- mysql
+- memcached
 before_script:
-  - mysql < src/sql/database.sql
-  - mysql -e 'show tables;'
-
+- mysql < src/sql/database.sql
+- mysql -e 'show tables;'
 before_install:
 - openssl aes-256-cbc -K $encrypted_6b883e898529_key -iv $encrypted_6b883e898529_iv
-  -in .travis/web-helloworld-production-deploy.enc -out .travis/web-helloworld-production-deploy.key -d
-
+  -in .travis/web-helloworld-production-deploy.enc -out .travis/web-helloworld-production-deploy.key
+  -d
 after_success:
-  - source .travis/ssh-setup.sh
-  - git remote add deploy git@github.com:robparrott/web-hello-world-deploy.git
-  - git config --global push.default matching
-  - git ls-files
-  - git branch -av
-  - git push deploy master
-  - echo "Completed push..."
+- source .travis/ssh-setup.sh
+- git remote add deploy git@github.com:robparrott/web-hello-world-deploy.git
+- git config --global push.default matching
+- git ls-files
+- git branch -av
+- git push deploy master
+- echo "Completed push..."
 
 deploy:
-  provider: heroku
-  api_key:
-    secure: Nm/evyX4yvjP44THa5whXhcId061oCExrQF/TTRyXWv6ArwjRjEK2vbH+RhhjRzKEfB30alna1dwI1Md1hLP9xMCUrcR7Yg336B2guKxVh6zNv9noNTuVmaABuZBOidor7YSYBWNcrkioV5PHTLwoP31HNIChQNIzd2YkUOJ6A0=
-  app: cryptic-depths-9874
-  on:
-    repo: robparrott/web-hello-world
+  - provider: s3
+    access_key_id: AKIAJT7QVC6TBFAUILKQ
+    secret_access_key:
+      secure: KI8Z+GmWc1TxWh+kFty0HRp8vaE72q2tci2e71JL9dxgnBzKvOBLjHpkZvaAvMy/ilQBdnZH+vq9NpejOAFuTCEZ2oBKt1B1AJPiGXKkfQJbrdQl1nr+pv7wYn0Uc0xxqP0ahe+QCvHCW3saXV+gZ3WNjJzcq1ymwQuomnl/7cA=
+    bucket: cdp-demo-deploy-harvard-edu
+    acl: !ruby/string:HighLine::String |-
+      cHJpdmF0ZQ==
+    on:
+      repo: robparrott/web-hello-world
+
+  - provider: heroku
+    api_key:
+      secure: Nm/evyX4yvjP44THa5whXhcId061oCExrQF/TTRyXWv6ArwjRjEK2vbH+RhhjRzKEfB30alna1dwI1Md1hLP9xMCUrcR7Yg336B2guKxVh6zNv9noNTuVmaABuZBOidor7YSYBWNcrkioV5PHTLwoP31HNIChQNIzd2YkUOJ6A0=
+    app: cryptic-depths-9874
+    on:
+      repo: robparrott/web-hello-world
