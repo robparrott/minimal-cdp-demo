@@ -23,6 +23,7 @@ after_success:
 - git branch -av
 - git push deploy master
 - echo "Completed push..."
+- find . 
 
 deploy:
   - provider: s3
