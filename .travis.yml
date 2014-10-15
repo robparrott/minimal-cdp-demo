@@ -1,20 +1,37 @@
+#
+# Do a Java build/test with Java 7 
+#
 language: java
 jdk:
 - oraclejdk7
 
+#
+# In addition to java, run MySQL and Memcached
+#
 services:
 - mysql
 - memcached
 
+#
+# Install the database for testing and setup purposes.
+#
 before_script:
 - mysql < src/sql/database.sql
 - mysql -D employees -e 'show tables;' 
 
+#
+# Decrypt the private SSH key for GitHub
+#
 before_install:
 - openssl aes-256-cbc -K $encrypted_6b883e898529_key -iv $encrypted_6b883e898529_iv
   -in .travis/web-helloworld-production-deploy.enc -out .travis/web-helloworld-production-deploy.key
   -d
 
+#
+# After success, push this code to a "golden" repo to deploy from,
+#  and then gather all the build artifacts into specific directory
+#  named for the git commit hash
+#
 after_success:
 - source .travis/ssh-setup.sh
 - git remote add deploy git@github.com:robparrott/minimal-cdp-demo-golden.git
@@ -26,24 +43,23 @@ after_success:
 - mkdir build && cp -av target build/$(git log | head -1 | awk '{print $2}')
 - find .
 
-deploy:
-  # - provider: s3
-  #   access_key_id: AKIAJT7QVC6TBFAUILKQ
-  #   secret_access_key:
-  #     secure: KI8Z+GmWc1TxWh+kFty0HRp8vaE72q2tci2e71JL9dxgnBzKvOBLjHpkZvaAvMy/ilQBdnZH+vq9NpejOAFuTCEZ2oBKt1B1AJPiGXKkfQJbrdQl1nr+pv7wYn0Uc0xxqP0ahe+QCvHCW3saXV+gZ3WNjJzcq1ymwQuomnl/7cA=
-  #   bucket: cdp-demo-deploy-harvard-edu
-  #   skip_cleanup: true
-  #   local-dir: build
-  #   on:
-  #     repo: robparrott/minimal-cdp-demo
+#
+# Deploy the test app to Heroku
+# 
 
-- provider: heroku
+deploy:
+  provider: heroku
   api_key:
     secure: Nm/evyX4yvjP44THa5whXhcId061oCExrQF/TTRyXWv6ArwjRjEK2vbH+RhhjRzKEfB30alna1dwI1Md1hLP9xMCUrcR7Yg336B2guKxVh6zNv9noNTuVmaABuZBOidor7YSYBWNcrkioV5PHTLwoP31HNIChQNIzd2YkUOJ6A0=
   app: cryptic-depths-9874
   on:
     repo: robparrott/minimal-cdp-demo
 
+#
+# Capture build artifacts into an S3 bucket repository, of format
+#
+#  s3://[bucket name]/[github user]/[repo name]/[build #]/[step number (i.e. 40.1) ]/[git commit hash]
+#
 addons:
   artifacts:
     key: AKIAJT7QVC6TBFAUILKQ
