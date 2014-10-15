@@ -7,12 +7,12 @@ This repository, based on [https://github.com/chrissearle/web-hello-world](https
 
 ## Steps
 
-### 1 Setup Primary Repository
+### 1) Setup Primary Repository
 
 Clone this respository, and modify this `README.md` and `.travis.yaml` file to point to this new repository.
 
 
-### 2 Setup Travis CI
+### 2) Setup Travis CI
 
 See
 
@@ -23,7 +23,7 @@ Create a Travis CI account based on your GitHub account, and note the token.
 Once setup, on GitHub browse to the settings of the repository you want do CI with (i.e. this one?) and add a new Travis CI service. Provide the Travis CI username and token; use the "profile" tab on Travis CI to find these values. Once added, save and then make a trivial change to the repo and commit it. You should see the build happen automatically under Travis CI, and a status under this README.
 
 
-### 3 Setup Heroku
+### 3) Setup Heroku
 
 To use Heroku, signup and create a new Java App by following the directions under this link: [Java App](https://devcenter.heroku.com/articles/getting-started-with-java).  Make sure you create a new ssh key, and name it after this particular app. This will be a "service" key, just used for deploying this app:
 
@@ -50,7 +50,7 @@ You can deploy directly from the repository (skipping the CI steps) by pushing d
 git push heroku master
 ```
 
-### 4 Integrate Heroku with Travic CI
+### 4) Integrate Heroku with Travic CI
 
 Once you have an app in heroku ready to deploy to, we'll need to setup Travis CI to deploy as per the docs [here](http://docs.travis-ci.com/user/deployment/heroku/). You'll need to capture the API key for heroku by executing
 
@@ -72,7 +72,7 @@ One more step before you can deploy. You need to make sure that the app name in 
 Once these things are aligned, make a minor change, and then visit the URL of the heroku app from the above command. If all goes well, you should see it deployed there.
 
 
-### 5 Setup a "Golden Master" repo
+### 5) Setup a "Golden Master" repo
 
 Instead of deploying to production straight from Travis CI, we may want to push a successful build to a "golden master" repository instead. This allows you to create a "gatekeeping" process to ensure that code that fails your tests doesn't end up in the repository you want to deploy from.
 
@@ -112,16 +112,33 @@ after_success:
 
 Once that's completed, then all successful builds of the repository will be pushed to this deployment repository automatically.
 
-### S3 Binary Deployment
+### 6) S3 Artifact Deployment
+
+To cpature binary build artifacts, you can use the built-in `artifact` feature of Travis CI to push build objects to an S3 bucket. For details see the Travis CI docs here: (http://docs.travis-ci.com/user/uploading-artifacts/)
+
+The result should look something like this:
 
 ```
-  - provider: s3
-    access_key_id: AKIAJT7QVC6TBFAUILKQ
-    secret_access_key:
-      secure: "something random"
-    bucket: cdp-demo-deploy-harvard-edu
-    skip_cleanup: true
-    local-dir: build
-    on:
-      repo: robparrott/minimal-cdp-demo
-  ```    
+addons:
+  artifacts:
+    key: AKIAJT7QVC6TBFAUILKQ
+    secret: 
+      secure: (some stuff)
+    bucket: "cdp-demo-deploy-harvard-edu"
+    paths:
+    - build
+```
+
+You'll need to use Tarvis CI's command line interface to encrypt your AWS secret.
+
+This artifacts stanza captures everything in the `build/` directory to the S3 bucket. To set up this directory, the asiest thing to do is to add a line to the `after_success` stanza that captures the target directory to one named for the git commit hash as follows:
+
+```
+mkdir build && cp -av target build/$(git log | head -1 | awk '{print $2}')
+```
+
+When done, all successful build artifacts will be copied into your S3 bucket at a url of the form
+
+* `s3://[bucket name]/[github user]/[repo name]/[build #]/[step number (i.e. 40.1) ]/[git commit hash]`
+
+### 7) Deploying to Jenkins
