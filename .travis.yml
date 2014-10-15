@@ -34,14 +34,8 @@ before_install:
 #
 after_success:
 - source .travis/ssh-setup.sh
-- git remote add deploy git@github.com:robparrott/minimal-cdp-demo-golden.git
-- git config --global push.default matching
-- git ls-files
-- git branch -av
-- git push deploy master
-- echo "Completed push..."
-- mkdir build && cp -av target build/$(git log | head -1 | awk '{print $2}')
-- find .
+- bash .travis/git_push_to_golden_master.sh
+- bash .travis/setup_artifact_dir.sh
 
 #
 # Deploy the test app to Heroku
