@@ -111,3 +111,17 @@ after_success:
 ```
 
 Once that's completed, then all successful builds of the repository will be pushed to this deployment repository automatically.
+
+### S3 Binary Deployment
+
+```
+  - provider: s3
+    access_key_id: AKIAJT7QVC6TBFAUILKQ
+    secret_access_key:
+      secure: "something random"
+    bucket: cdp-demo-deploy-harvard-edu
+    skip_cleanup: true
+    local-dir: build
+    on:
+      repo: robparrott/minimal-cdp-demo
+  ```    
