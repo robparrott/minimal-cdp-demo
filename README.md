@@ -5,6 +5,11 @@
 
 This repository, based on [https://github.com/chrissearle/web-hello-world](https://github.com/chrissearle/web-hello-world) demonstrates using common CI and CD services to build a continuous deployment pipeline.
 
+The pipeline looks like this:
+
+![](https://raw.githubusercontent.com/robparrott/minimal-cdp-demo/master/docs/pipeline.png)
+
+
 ## Steps
 
 ### 1) Setup Primary Repository
