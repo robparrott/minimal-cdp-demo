@@ -34,7 +34,7 @@ before_install:
 #
 after_success:
 - source .travis/ssh-setup.sh
-- bash .travis/git_push_to_golden_master.sh
+- bash .travis/git_push_to_golden_repo.sh
 - bash .travis/setup_artifact_dir.sh
 
 #
