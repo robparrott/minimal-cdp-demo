@@ -134,7 +134,7 @@ addons:
     - build
 ```
 
-You'll need to use Tarvis CI's command line interface to encrypt your AWS secret.
+You'll need to use Travis CI's command line interface to encrypt your AWS secret.
 
 This artifacts stanza captures everything in the `build/` directory to the S3 bucket. To set up this directory, the asiest thing to do is to add a line to the `after_success` stanza that captures the target directory to one named for the git commit hash as follows:
 
